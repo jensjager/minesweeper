@@ -16,6 +16,10 @@ public class Väli {
     }
 
     // Meetodid
+    public int getSuurus() {
+        return suurus;
+    }
+
     public Miinid getElement(int rida, int veerg){
         return väli[rida][veerg];
     }
@@ -58,8 +62,14 @@ public class Väli {
 
     // Meetod väljastab hetkeline välja käsureale
     public void väljasta() {
-        for (Miinid[] element : väli) {
-            System.out.println(Arrays.toString(element));
+        System.out.print("     ");
+        for (int i = 0; i < suurus; i++) {
+            System.out.print(i + "  ");
+        }
+        System.out.print("\n");
+
+        for (int i = 0; i < suurus; i++) {
+            System.out.println(i + " - " + Arrays.toString(väli[i]));
         }
     }
 

@@ -40,7 +40,10 @@ public class TühiMiin implements Miinid {
 
     @Override
     public String toString() {
-        if (nähtav) return Integer.toString(mitu);
+        if (nähtav) {
+            if (mitu > 0) return Integer.toString(mitu);
+            else return " ";
+        }
         return "?";
     }
 }

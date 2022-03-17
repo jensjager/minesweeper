@@ -10,11 +10,18 @@ public class Minesweeper {
             // Küsitakse kasutajalt rida ja veerg
             int rida = p.küsi("Sisesta rida: ");
             int veerg = p.küsi("Sisesta veerg: ");
+            if (rida >= väli.getSuurus() || veerg >= väli.getSuurus()) {
+                System.out.println("Vigane sisend");
+                continue;
+            }
 
-            // Valitakse väljalt element ja kontrollitakse millega tegu on
+            // Valitakse väljalt element, tehakse see nähtavaks
+            // ning seejärel väljastatakse uus väli
             Miinid valik = väli.getElement(rida, veerg);
             valik.setNähtav(true);
             väli.väljasta();
+
+            // Kui tegu oli miiniga, siis mäng lõpetatakse
             if (valik.isMiin()) p.setElus(false);
         } while (p.isElus() && väli.eiLeiduNähtav());
 

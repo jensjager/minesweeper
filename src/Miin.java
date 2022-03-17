@@ -32,12 +32,12 @@ public class Miin implements Miinid {
 
     @Override
     public int getMitu() {
-        return 0;
+        return 1;
     }
 
     @Override
     public String toString() {
-        if (nähtav) return "M";
+        if (nähtav) return "X";
         return "?";
     }
 }
