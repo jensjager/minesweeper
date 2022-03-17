@@ -1,21 +1,24 @@
-import java.util.Scanner;
-
 public class Minesweeper {
 
     public static void main(String[] args) {
-        Väli väli = new Väli(10, 20);
-        Scanner sc = new Scanner(System.in);
+        Kasutaja p = new Kasutaja();
+        int suurus = p.küsi("Sisestage soovitud välja suurus: ");
+        Väli väli = new Väli(suurus, 20);
         väli.väljasta();
 
-        while (true){
-            System.out.println("Sisesta rida: ");
-            int rida = Integer.parseInt(sc.nextLine());
-            System.out.println("Sisesta veerg: ");
-            int veerg = Integer.parseInt(sc.nextLine());
-            Ruut valik = väli.getElement(rida, veerg);
-            if (valik.getMiin()) break;
+        do {
+            // Küsitakse kasutajalt rida ja veerg
+            int rida = p.küsi("Sisesta rida: ");
+            int veerg = p.küsi("Sisesta veerg: ");
+
+            // Valitakse väljalt element ja kontrollitakse millega tegu on
+            Miinid valik = väli.getElement(rida, veerg);
             valik.setNähtav(true);
             väli.väljasta();
-        }
+            if (valik.isMiin()) p.setElus(false);
+        } while (p.isElus() && väli.eiLeiduNähtav());
+
+        if (p.isElus()) System.out.println("Võitsite!");
+        else System.out.println("Kaotasite");
     }
 }
