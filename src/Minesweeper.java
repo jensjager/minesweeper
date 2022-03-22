@@ -18,7 +18,7 @@ public class Minesweeper {
             // Valitakse väljalt element, tehakse see nähtavaks
             // ning seejärel väljastatakse uus väli
             Miinid valik = väli.getElement(rida, veerg);
-            valik.setNähtav(true);
+            väli.avaldaTühjad(rida, veerg, valik);
             väli.väljasta();
 
             // Kui tegu oli miiniga, siis mäng lõpetatakse

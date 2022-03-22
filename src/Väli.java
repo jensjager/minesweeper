@@ -92,4 +92,21 @@ public class Väli {
         }
         return false;
     }
+
+    // Meetod avab kõrvalolevad lahtrid juhul kui valitud ruudul polnud ühtegi miini kõrval
+    public void avaldaTühjad(int rida, int veerg, Miinid valik){
+        if (!valik.isNähtav()){
+            valik.setNähtav(true);
+        }
+        if (valik.getMitu() == 0){
+            for (int i = rida-1; i < rida+2 && i<väli.length; i++) {
+                for (int j = veerg-1; j < veerg+2 && j<väli.length; j++) {
+                    if (i<0) i = 0;
+                    if (j<0) j = 0;
+                    if (i == rida && j == veerg) continue;
+                    if (!väli[i][j].isNähtav()) avaldaTühjad(i,j,väli[i][j]);
+                }
+            }
+        }
+    }
 }
