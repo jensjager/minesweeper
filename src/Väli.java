@@ -3,40 +3,35 @@ import java.util.Arrays;
 public class Väli {
 
     // Isendiväli
-    private Miinid[][] väli;
+    private Ruudud[][] väli;
     private int suurus;
 
     // Konstruktor
     public Väli(int suurus, int protsent) {
-        if (suurus < 1) throw new RuntimeException("Väli ei saa olla väiksem kui 1");
         this.suurus = suurus;
-        väli = new Miinid[suurus][suurus];
+        väli = new Ruudud[suurus][suurus];
         looVäli(protsent);
         väärtustaTühjad();
     }
 
     // Meetodid
-    public int getSuurus() {
-        return suurus;
-    }
-
-    public Miinid getElement(int rida, int veerg){
-        return väli[rida][veerg];
+    public Ruudud getRuut(int i, int j) {
+        return väli[i][j];
     }
 
     // Meetod loob väljale Miinid
     public void looVäli(int protsent) {
         for (int i = 0; i < suurus; i++) {
             for (int j = 0; j < suurus; j++) {
-                if ((int) (Math.random()*100) < protsent)
+                if ((int) (Math.random() * 100) < protsent)
                     väli[i][j] = new Miin();
                 else
-                    väli[i][j] = new TühiMiin();
+                    väli[i][j] = new TühiRuut();
             }
         }
     }
 
-    // Meetod väärtustab mittemiinid arvuga, mis näitab, mitu miini nende kõrval asub
+    // Meetod väärtustab tühjad ruudud arvuga, mis näitab, mitu miinist naabrit neil on
     public void väärtustaTühjad() {
         for (int i = 0; i < suurus; i++) {
             for (int j = 0; j < suurus; j++) {
@@ -60,7 +55,7 @@ public class Väli {
         return kokku;
     }
 
-    // Meetod väljastab hetkeline välja käsureale
+    // Meetod väljastab hetkelise välja ekraanile
     public void väljasta() {
         System.out.print("     ");
         for (int i = 0; i < suurus; i++) {
@@ -73,17 +68,16 @@ public class Väli {
         }
     }
 
-    // Ajutine!!
-    // Meetod muudab kõik välja elemendid nähtavaks
+    // Meetod muudab kõik ruudud nähtavaks
     public void kõikNähtav() {
-        for (Miinid[] element : väli) {
+        for (int i = 0; i < suurus; i++) {
             for (int j = 0; j < suurus; j++) {
-                element[j].setNähtav(true);
+                väli[i][j].setNähtav();
             }
         }
     }
 
-    // Meetod kontrollib, et leiduks veel nähtamatuid liikmeid
+    // Meetod kontrollib varjatud tühjade ruutude olemasolu
     public boolean eiLeiduNähtav() {
         for (int i = 0; i < suurus; i++) {
             for (int j = 0; j < suurus; j++) {
@@ -93,18 +87,21 @@ public class Väli {
         return false;
     }
 
-    // Meetod avab kõrvalolevad lahtrid juhul kui valitud ruudul polnud ühtegi miini kõrval
-    public void avaldaTühjad(int rida, int veerg, Miinid valik){
-        if (!valik.isNähtav()){
-            valik.setNähtav(true);
+    // Meetod avaldab varjatud ruudu
+    public void avaldaTühjad(int rida, int veerg) {
+        Ruudud ruut = väli[rida][veerg];
+        if (!ruut.isNähtav()){
+            ruut.setNähtav();
         }
-        if (valik.getMitu() == 0){
-            for (int i = rida-1; i < rida+2 && i<väli.length; i++) {
-                for (int j = veerg-1; j < veerg+2 && j<väli.length; j++) {
-                    if (i<0) i = 0;
-                    if (j<0) j = 0;
+
+        // Kui tühi ruut ei puuduta ühtegi miini, siis avaldatakse ka tema naaberruudud
+        if (ruut.getMitu() == 0){
+            for (int i = rida - 1; i < rida + 2 && i < väli.length; i++) {
+                if (i < 0) i = 0;
+                for (int j = veerg - 1; j < veerg + 2 && j < väli.length; j++) {
+                    if (j < 0) j = 0;
                     if (i == rida && j == veerg) continue;
-                    if (!väli[i][j].isNähtav()) avaldaTühjad(i,j,väli[i][j]);
+                    if (!väli[i][j].isNähtav()) avaldaTühjad(i, j);
                 }
             }
         }

@@ -1,31 +1,46 @@
 public class Minesweeper {
 
     public static void main(String[] args) {
-        Kasutaja p = new Kasutaja();
-        int suurus = p.küsi("Sisestage soovitud välja suurus: ");
-        Väli väli = new Väli(suurus, 20);
-        väli.väljasta();
+        // Luuakse mängija isend
+        Kasutaja mängija = new Kasutaja();
+        boolean mäng = true;
+        mängija.algusTekst();
 
+        // Antud do tsükkel laseb mänge uuesti mängida
         do {
-            // Küsitakse kasutajalt rida ja veerg
-            int rida = p.küsi("Sisesta rida: ");
-            int veerg = p.küsi("Sisesta veerg: ");
-            if (rida >= väli.getSuurus() || veerg >= väli.getSuurus()) {
-                System.out.println("Vigane sisend");
-                continue;
-            }
-
-            // Valitakse väljalt element, tehakse see nähtavaks
-            // ning seejärel väljastatakse uus väli
-            Miinid valik = väli.getElement(rida, veerg);
-            väli.avaldaTühjad(rida, veerg, valik);
+            // Mängu algsättimine
+            mängija.setElu(true);
+            int suurus = mängija.küsiArv("Sisestage soovitud välja suurus (soovitatav <= 12): ", 1, 100);
+            Väli väli = new Väli(suurus, 20);
             väli.väljasta();
 
-            // Kui tegu oli miiniga, siis mäng lõpetatakse
-            if (valik.isMiin()) p.setElus(false);
-        } while (p.isElus() && väli.eiLeiduNähtav());
+            // Mängu tsükkel
+            do {
+                // Küsitakse kasutajalt rida ja veerg
+                int rida = mängija.küsiArv("Sisesta rida: ", 0, suurus - 1);
+                int veerg = mängija.küsiArv("Sisesta veerg: ", 0, suurus - 1);
 
-        if (p.isElus()) System.out.println("Võitsite!");
-        else System.out.println("Kaotasite");
+
+                // Väljal tehakse valitud ruut nähtavaks
+                väli.avaldaTühjad(rida, veerg);
+
+                // Kui tegu oli miiniga, siis mäng lõpetatakse
+                if (väli.getRuut(rida, veerg).isMiin()) {
+                    mängija.setElu(false);
+                    väli.kõikNähtav();
+                }
+                väli.väljasta();
+
+              // Mäng kestab niikaua kui mängija on elus või kui kõik tühjad ruudud on avaldatud
+            } while (mängija.isElu() && väli.eiLeiduNähtav());
+
+            // Kui mängija jäi mängu lõpuks ellu, siis ta võitis
+            if (mängija.isElu()) System.out.println("Võitsite!");
+            else System.out.println("Kaotasite");
+
+            // Kui kasutaja ei soovi enam mängida, siis lõpetatakse mäng
+            char valik = mängija.küsiChar("Kas soovite uuesti mängida (y/n): ");
+            if (valik == 'n') mäng = false;
+        } while(mäng);
     }
 }

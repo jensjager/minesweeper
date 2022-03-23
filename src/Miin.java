@@ -1,43 +1,14 @@
-public class Miin implements Miinid {
-
-    // Isendiväljad
-    private boolean miin;
-    private boolean nähtav;
+public class Miin extends Ruudud {
 
     // Konstruktor
     public Miin() {
-        miin = true;
-        nähtav = false;
+        super(true);
     }
 
-    // Meetodid
-    @Override
-    public boolean isNähtav() {
-        return nähtav;
-    }
-
-    @Override
-    public void setNähtav(boolean nähtav) {
-        this.nähtav = nähtav;
-    }
-
-    @Override
-    public boolean isMiin() {
-        return miin;
-    }
-
-    @Override
-    public void setMitu(int mitu) {
-    }
-
-    @Override
-    public int getMitu() {
-        return 1;
-    }
-
+    // Ülekate
     @Override
     public String toString() {
-        if (nähtav) return "X";
-        return "?";
+        if (isNähtav()) return "\u001B[31m" + "X" + "\u001B[0m";
+        return super.toString();
     }
 }
