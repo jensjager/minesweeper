@@ -57,14 +57,20 @@ public class Väli {
 
     // Meetod väljastab hetkelise välja ekraanile
     public void väljasta() {
-        System.out.print("     ");
+        if (suurus > 10)
+            System.out.print("      ");
+        else
+            System.out.print("     ");
         for (int i = 0; i < suurus; i++) {
-            System.out.print(i + "  ");
+            if (suurus > 10 && i > 8)
+                System.out.print(i + " ");
+            else System.out.print(i + "  ");
         }
         System.out.print("\n");
 
         for (int i = 0; i < suurus; i++) {
-            System.out.println(i + " - " + Arrays.toString(väli[i]));
+            if (suurus > 10 && i < 10) System.out.println(i + " -  " + Arrays.toString(väli[i]));
+            else System.out.println(i + " - " + Arrays.toString(väli[i]));
         }
     }
 
@@ -90,12 +96,12 @@ public class Väli {
     // Meetod avaldab varjatud ruudu
     public void avaldaTühjad(int rida, int veerg) {
         Ruudud ruut = väli[rida][veerg];
-        if (!ruut.isNähtav()){
+        if (!ruut.isNähtav()) {
             ruut.setNähtav();
         }
 
         // Kui tühi ruut ei puuduta ühtegi miini, siis avaldatakse ka tema naaberruudud
-        if (ruut.getMitu() == 0){
+        if (ruut.getMitu() == 0) {
             for (int i = rida - 1; i < rida + 2 && i < väli.length; i++) {
                 if (i < 0) i = 0;
                 for (int j = veerg - 1; j < veerg + 2 && j < väli.length; j++) {
